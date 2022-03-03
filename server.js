@@ -16,6 +16,7 @@ var request = require("request")
   , user         = require("./api/user")
   , metrics      = require("./api/metrics")
   , app          = express()
+  , fs           = require("fs")
 
 
 app.use(helpers.rewriteSlash);
@@ -44,6 +45,25 @@ process.argv.forEach(function (val, index, array) {
       console.log("Setting domain to:", domain);
     }
   }
+});
+
+function getNewRelicBrowserAgent() {
+  const nrtemplate = fs.readFileSync('./public/js/newrelicbrower.js.template').toString();
+  return nrtemplate
+    .replace(/_TEMPLATE_ACCOUNT_ID_/g, process.env.NEW_RELIC_ACCOUNT_ID)
+    .replace(/_TEMPLATE_TRUST_KEY_/g, process.env.NEW_RELIC_TRUST_KEY)
+    .replace(/_TEMPLATE_AGENT_ID_/g, process.env.NEW_RELIC_AGENT_ID)
+    .replace(/_TEMPLATE_LICENSE_KEY_/g, process.env.NEW_RELIC_LICENSE_KEY)
+    .replace(/_TEMPLATE_APP_ID_/g, process.env.NEW_RELIC_APP_ID)
+    ;
+}
+
+const NewRelicBrowserFile = getNewRelicBrowserAgent();
+
+app.get('/nragent/newrelic.js', function(req, res) {
+  res.setHeader('content-type', 'text/javascript');
+  res.write(NewRelicBrowserFile);
+  res.end();
 });
 
 /* Mount API endpoints */
