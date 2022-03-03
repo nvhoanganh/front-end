@@ -1,4 +1,6 @@
-var request      = require("request")
+require("newrelic");
+
+var request = require("request")
   , express      = require("express")
   , morgan       = require("morgan")
   , path         = require("path")
