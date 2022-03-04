@@ -49,11 +49,11 @@ process.argv.forEach(function (val, index, array) {
 
 function getNewRelicBrowserAgent() {
   const nrtemplate = fs.readFileSync('./public/js/newrelicbrower.js.template').toString();
+
   return nrtemplate
     .replace(/_TEMPLATE_ACCOUNT_ID_/g, process.env.NEW_RELIC_ACCOUNT_ID)
-    .replace(/_TEMPLATE_TRUST_KEY_/g, process.env.NEW_RELIC_TRUST_KEY)
-    .replace(/_TEMPLATE_AGENT_ID_/g, process.env.NEW_RELIC_AGENT_ID)
-    .replace(/_TEMPLATE_LICENSE_KEY_/g, process.env.NEW_RELIC_LICENSE_KEY)
+    .replace(/_TEMPLATE_TRUST_KEY_/g, process.env.NEW_RELIC_APP_ID)
+    .replace(/_TEMPLATE_LICENSE_KEY_/g, process.env.NEW_RELIC_BROWSER_LICENSE_KEY)
     .replace(/_TEMPLATE_APP_ID_/g, process.env.NEW_RELIC_APP_ID)
     ;
 }
