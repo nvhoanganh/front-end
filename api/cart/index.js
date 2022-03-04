@@ -118,6 +118,13 @@
       next(new Error("Must pass quantity to update"), 400);
       return;
     }
+
+    // throw an error when quantity is greater than 10
+    if (parseInt(req.body.quantity) > 10) {
+      console.log("Quantity limit per customer reached", req.body.quantity);
+      throw new Error("Quantity limit per customer reached");
+    }
+
     var custId = helpers.getCustomerId(req, app.get("env"));
 
     async.waterfall([
