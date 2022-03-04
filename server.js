@@ -22,6 +22,12 @@ var request = require("request")
 app.use(helpers.rewriteSlash);
 app.use(metrics);
 app.use(express.static("public"));
+
+const { logger } = helpers;
+// overrwrite global console.log object
+global.console.log = (...args) => logger.info.call(logger, ...args);
+
+
 if(process.env.SESSION_REDIS) {
     console.log('Using the redis based session manager');
     app.use(session(config.session_redis));
