@@ -8,7 +8,7 @@ function login() {
         success: function (data, textStatus, jqXHR) {
             $("#login-message").html('<div class="alert alert-success">Login successful.</div>');
             console.log('posted: ' + textStatus);
-            console.log("logged_in cookie: " + $.cookie('logged_in'));
+            console.log("logged_in cookies:" + $.cookie('logged_in'));
             setTimeout(function(){
                 location.reload();
             }, 1500);
